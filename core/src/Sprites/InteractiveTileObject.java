@@ -5,10 +5,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.paskomartin.mariobros.MarioBros;
 
 public abstract class InteractiveTileObject {
@@ -17,6 +18,7 @@ public abstract class InteractiveTileObject {
 	protected TiledMapTile tile;
 	protected Rectangle bounds;
 	protected Body body;
+	protected Fixture fixture;
 	
 	public InteractiveTileObject(World world, TiledMap map, Rectangle bounds ) {
 		this.world = world;
@@ -34,7 +36,9 @@ public abstract class InteractiveTileObject {
 		
 		shape.setAsBox(bounds.getWidth() / 2 / MarioBros.PPM, bounds.getHeight() / 2 / MarioBros.PPM);
 		fdef.shape = shape;
-		body.createFixture(fdef);
+		fixture = body.createFixture(fdef);
 		
 	}
+	
+	public abstract void onHeadHit();
 }

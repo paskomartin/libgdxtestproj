@@ -2,13 +2,17 @@ package Sprites;
 
 import Screens.PlayScreen;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
@@ -107,6 +111,14 @@ public class Mario extends Sprite {
 	}
 
 	private State getState() {
+		/* Stop the mario
+		if (b2body.getLinearVelocity().x > 0 && previousState == State.RUNNING && !Gdx.input.isKeyPressed(Keys.RIGHT)) {
+			currentState = State.STANDING;
+			b2body.applyLinearImpulse(new Vector2(-b2body.getLinearVelocity().x, 0), b2body.getWorldCenter(), true);
+		}
+		*/
+		
+		
 		if (b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING)) {
 			return State.JUMPING;
 		}
@@ -131,5 +143,15 @@ public class Mario extends Sprite {
 		
 		fdef.shape = shape;
 		b2body.createFixture(fdef);
+		
+		// create head
+		// just line
+		EdgeShape head = new EdgeShape();
+		// relative to the origin of the center of the body
+		head.set(new Vector2(-2 / MarioBros.PPM, 6 / MarioBros.PPM), new Vector2(2 / MarioBros.PPM, 6 / MarioBros.PPM)); 
+		fdef.shape = head;
+		fdef.isSensor = true;
+		
+		b2body.createFixture(fdef).setUserData("head");
 	}
 }
