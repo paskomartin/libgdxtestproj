@@ -2,10 +2,12 @@ package Sprites;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -41,4 +43,21 @@ public abstract class InteractiveTileObject {
 	}
 	
 	public abstract void onHeadHit();
+	
+	public void setCategoryFIlter(short filterBit) {
+		Filter filter = new Filter();
+		filter.categoryBits = filterBit;
+		fixture.setFilterData(filter);
+	}
+	
+	public TiledMapTileLayer.Cell getCell() {
+		TiledMapTileLayer layer = (TiledMapTileLayer)map.getLayers().get(1);
+		// we have to scale position to the tile coordinates (because before we divided it by PPM)
+		// so. body position * PPM and then divide by tile 'size'
+		final int TILE_SIZE = 16;
+		int x = (int)(body.getPosition().x * MarioBros.PPM / TILE_SIZE);
+		int y = (int)(body.getPosition().y * MarioBros.PPM / TILE_SIZE);
+		return layer.getCell(x, y);
+		//return layer.getCell((int)(body.getPosition().x * MarioBros.PPM), y)
+	}
 }

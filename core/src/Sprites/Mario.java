@@ -140,6 +140,11 @@ public class Mario extends Sprite {
 		FixtureDef fdef = new FixtureDef();
 		CircleShape shape = new CircleShape();
 		shape.setRadius(6 / MarioBros.PPM);
+		// define filters
+		fdef.filter.categoryBits = MarioBros.MARIO_BIT;
+		// define mask bit - mario can collide with?
+		fdef.filter.maskBits = MarioBros.DEFAULT_BIT | MarioBros.COIN_BIT | MarioBros.BRICK_BIT;
+		
 		
 		fdef.shape = shape;
 		b2body.createFixture(fdef);
