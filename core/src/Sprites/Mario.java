@@ -35,9 +35,9 @@ public class Mario extends Sprite {
 	private float stateTimer;
 	private boolean runningRight;
 	
-	public Mario(World world, PlayScreen screen) {
+	public Mario(PlayScreen screen) {
 		super(screen.getAtlas().findRegion("little_mario"));
-		this.world = world;
+		this.world = screen.getWorld();
 		currentState = State.STANDING;
 		previousState = State.STANDING;
 		stateTimer = 0f;
@@ -133,7 +133,7 @@ public class Mario extends Sprite {
 
 	public void defineMario() {
 		BodyDef bdef = new BodyDef();
-		bdef.position.set(32 / MarioBros.PPM, 32 / MarioBros.PPM);
+		bdef.position.set(16 / MarioBros.PPM, 16 / MarioBros.PPM);
 		bdef.type = BodyDef.BodyType.DynamicBody;
 		
 		b2body = world.createBody(bdef);
@@ -143,7 +143,7 @@ public class Mario extends Sprite {
 		// define filters
 		fdef.filter.categoryBits = MarioBros.MARIO_BIT;
 		// define mask bit - mario can collide with?
-		fdef.filter.maskBits = MarioBros.DEFAULT_BIT | MarioBros.COIN_BIT | MarioBros.BRICK_BIT;
+		fdef.filter.maskBits = MarioBros.GROUND_BIT | MarioBros.COIN_BIT | MarioBros.BRICK_BIT | MarioBros.ENEMY_BIT | MarioBros.OBJECT_BIT;
 		
 		
 		fdef.shape = shape;

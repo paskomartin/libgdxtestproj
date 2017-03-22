@@ -25,11 +25,13 @@ public class MarioBros extends Game {
 	 * category - what is this fixture eg. is it a Mario? is it a brick?
 	 * mask - what that fixture can collide with eg. can Mario can collide with coin
 	 */
-	public static final short DEFAULT_BIT = 1;
+	public static final short GROUND_BIT = 1;
 	public static final short MARIO_BIT = 2;
 	public static final short BRICK_BIT = 4;
 	public static final short COIN_BIT = 8;
 	public static final short DESTROYED_BIT = 16;
+	public static final short OBJECT_BIT = 32;
+	public static final short ENEMY_BIT = 64;
 	
 	// asset manager shoudln't be static
 	public static AssetManager manager;

@@ -1,5 +1,7 @@
 package Sprites;
 
+import Screens.PlayScreen;
+
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -22,9 +24,9 @@ public abstract class InteractiveTileObject {
 	protected Body body;
 	protected Fixture fixture;
 	
-	public InteractiveTileObject(World world, TiledMap map, Rectangle bounds ) {
-		this.world = world;
-		this.map = map;
+	public InteractiveTileObject(PlayScreen screen, Rectangle bounds ) {
+		this.world = screen.getWorld();
+		this.map = screen.getMap();
 		this.bounds = bounds;
 		
 		BodyDef bdef = new BodyDef();

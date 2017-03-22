@@ -1,6 +1,7 @@
 package Screens;
 
 import Scenes.Hud;
+import Sprites.Goomba;
 import Sprites.Mario;
 import Tools.B2WorldCreator;
 import Tools.WorldContactListener;
@@ -41,8 +42,9 @@ public class PlayScreen implements Screen {
 	private World world;			 // box2d œwiat
 	private Box2DDebugRenderer b2dr; // fizyczna reprezetnacja body w box2d
 	
-	// mario
+	// sprites
 	private Mario player;
+	private Goomba goomba;
 	
 	// music
 	private Music music;
@@ -67,9 +69,9 @@ public class PlayScreen implements Screen {
 		b2dr = new Box2DDebugRenderer();				// auxiliary renderer shows the collision box 
 		
 		// mario
-		player = new Mario(world, this);
+		player = new Mario(this);
 		
-		new B2WorldCreator(world, map);
+		new B2WorldCreator(this);
 		
 		// set the collision list?
 		world.setContactListener(new WorldContactListener() );
@@ -78,6 +80,8 @@ public class PlayScreen implements Screen {
 		music = MarioBros.manager.get("audio/music/mario_music.ogg", Music.class);
 		music.setLooping(true);
 		music.play();
+		
+		goomba = new Goomba(this, .32f, .32f);
 	}
 	
 	@Override
@@ -92,6 +96,8 @@ public class PlayScreen implements Screen {
 		world.step(1/60f, 6, 2);
 		
 		player.update(dt);
+		goomba.update(dt);
+		
 		hud.update(dt);
 		
 		gamecam.position.x = player.b2body.getPosition().x;
@@ -138,6 +144,7 @@ public class PlayScreen implements Screen {
 		game.batch.setProjectionMatrix(gamecam.combined);
 		game.batch.begin();
 		player.draw(game.batch);
+		goomba.draw(game.batch);
 		game.batch.end();
 		
 		
@@ -150,6 +157,15 @@ public class PlayScreen implements Screen {
 		gamePort.update(width, height);
 	}
 
+	public TiledMap getMap() {
+		return map;
+	}
+	
+	public World getWorld() {
+		return world;
+	}
+	
+	
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub

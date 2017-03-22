@@ -1,6 +1,7 @@
 package Sprites;
 
 import Scenes.Hud;
+import Screens.PlayScreen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
@@ -14,8 +15,8 @@ public class Coin extends InteractiveTileObject {
 	private static TiledMapTileSet tileset;
 	private final int BLANK_COIN = 28; // because GDX Tiles set starts counting from 1
 	
-	public Coin(World world, TiledMap map, Rectangle bounds) {
-		super(world, map, bounds);
+	public Coin(PlayScreen screen, Rectangle bounds) {
+		super(screen, bounds);
 		tileset = map.getTileSets().getTileSet("tileset_gutter");
 		fixture.setUserData(this);
 		setCategoryFIlter(MarioBros.COIN_BIT);
