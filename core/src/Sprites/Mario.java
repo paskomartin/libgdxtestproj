@@ -29,8 +29,8 @@ public class Mario extends Sprite {
 	
 	// textures
 	private TextureRegion marioStand;
-	private Animation marioRun;
-	private Animation marioJump;
+	private Animation<TextureRegion> marioRun;
+	private Animation<TextureRegion> marioJump;
 	
 	private float stateTimer;
 	private boolean runningRight;
@@ -49,14 +49,14 @@ public class Mario extends Sprite {
 			frames.add(new TextureRegion(getTexture(), i * 16, 0, 16, 16));
 		}
 		
-		marioRun = new Animation(0.1f, frames);
+		marioRun = new Animation<TextureRegion>(0.1f, frames);
 		frames.clear();
 
 		// jump
 		for(int i = 4; i < 6; ++i) {
 			frames.add(new TextureRegion(getTexture(), i * 16, 0, 16, 16));
 		}
-		marioJump = new Animation(0.1f, frames);
+		marioJump = new Animation<TextureRegion>(0.1f, frames);
 		
 		// get subtexture form big texture
 		marioStand = new TextureRegion(getTexture(), 0, 0, 16, 16);
@@ -98,8 +98,6 @@ public class Mario extends Sprite {
 			region.flip(true, false);
 			runningRight = false;
 		}
-		// TODO: https://www.youtube.com/watch?v=1fJrhgc0RRw&list=PLZm85UZQLd2SXQzsF-a0-pPF6IWDDdrXt&index=11
-		// 13:09
 		else if ( (b2body.getLinearVelocity().x >0 || runningRight) && region.isFlipX() ) {
 			region.flip(true, false);
 			runningRight = true;
@@ -135,8 +133,7 @@ public class Mario extends Sprite {
 		BodyDef bdef = new BodyDef();
 		bdef.position.set(16 / MarioBros.PPM, 16 / MarioBros.PPM);
 		bdef.type = BodyDef.BodyType.DynamicBody;
-		
-		b2body = world.createBody(bdef);
+		b2body = world.createBody(bdef);   // MarioBros.PPM/ MarioBros.PPM/ MarioBros.PPM
 		FixtureDef fdef = new FixtureDef();
 		CircleShape shape = new CircleShape();
 		shape.setRadius(6 / MarioBros.PPM);
