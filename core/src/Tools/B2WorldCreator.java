@@ -3,6 +3,7 @@ package Tools;
 import Screens.PlayScreen;
 import Sprites.Brick;
 import Sprites.Coin;
+import Sprites.Goomba;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -14,10 +15,13 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.utils.Array;
 import com.paskomartin.mariobros.MarioBros;
 
 // some kind of farbic - every body will be created, initialized and then will putted to the world.
 public class B2WorldCreator {
+	private Array<Goomba> goombas;
+	
 	public B2WorldCreator(PlayScreen screen) {
 		World world = screen.getWorld();
 		TiledMap map = screen.getMap();
@@ -75,5 +79,21 @@ public class B2WorldCreator {
 			
 			new Coin(screen, rect);
 		}
+		
+		// goombas
+		goombas = new Array<Goomba>();
+		for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class) ) {
+			Rectangle rect = ( (RectangleMapObject) object).getRectangle();
+			goombas.add(new Goomba(screen, rect.getX() / MarioBros.PPM, rect.getY() / MarioBros.PPM ));
+		}
+	}
+	
+	
+	public Array<Goomba> getGoombas() {
+		return goombas;
+	}
+
+	public void setGoombas(Array<Goomba> goombas) {
+		this.goombas = goombas;
 	}
 }

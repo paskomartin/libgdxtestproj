@@ -1,6 +1,7 @@
 package Screens;
 
 import Scenes.Hud;
+import Sprites.Enemy;
 import Sprites.Goomba;
 import Sprites.Mario;
 import Tools.B2WorldCreator;
@@ -41,10 +42,10 @@ public class PlayScreen implements Screen {
 	// box2d
 	private World world;			 // box2d œwiat
 	private Box2DDebugRenderer b2dr; // fizyczna reprezetnacja body w box2d
+	private B2WorldCreator creator;
 	
 	// sprites
 	private Mario player;
-	private Goomba goomba;
 	
 	// music
 	private Music music;
@@ -71,7 +72,8 @@ public class PlayScreen implements Screen {
 		// mario
 		player = new Mario(this);
 		
-		new B2WorldCreator(this);
+		creator = new B2WorldCreator(this);
+		
 		
 		// set the collision list?
 		world.setContactListener(new WorldContactListener() );
@@ -81,8 +83,6 @@ public class PlayScreen implements Screen {
 		music.setLooping(true);
 		music.setVolume(0.1f);
 		music.play();
-		
-		goomba = new Goomba(this, 5.64f, .16f);
 	}
 	
 	@Override
@@ -97,7 +97,9 @@ public class PlayScreen implements Screen {
 		world.step(1/60f, 6, 2);
 		
 		player.update(dt);
-		goomba.update(dt);
+		for (Enemy enemy : creator.getGoombas()) {
+			enemy.update(dt);
+		}
 		
 		hud.update(dt);
 		
@@ -145,7 +147,11 @@ public class PlayScreen implements Screen {
 		game.batch.setProjectionMatrix(gamecam.combined);
 		game.batch.begin();
 		player.draw(game.batch);
-		goomba.draw(game.batch);
+		
+		for (Enemy enemy : creator.getGoombas() ) {
+			enemy.draw(game.batch);
+		}
+		
 		game.batch.end();
 		
 		
