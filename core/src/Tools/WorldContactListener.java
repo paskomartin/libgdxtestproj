@@ -2,6 +2,7 @@ package Tools;
 
 import Sprites.Enemy;
 import Sprites.InteractiveTileObject;
+import Sprites.Mario;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -37,12 +38,25 @@ public class WorldContactListener implements ContactListener{
 					// FixA ia enemy
 					((Enemy)fixA.getUserData()).hitOnHead();
 				}
-				else if (fixB.getFilterData().categoryBits == MarioBros.ENEMY_HEAD_BIT) {
+				else { // if (fixB.getFilterData().categoryBits == MarioBros.ENEMY_HEAD_BIT) {
 					// FixB ia enemy
 					((Enemy)fixB.getUserData()).hitOnHead();
 				}
+				break;
 			}
-				
+			case MarioBros.ENEMY_BIT | MarioBros.OBJECT_BIT: {
+				if (fixA.getFilterData().categoryBits == MarioBros.ENEMY_BIT) {
+					( (Enemy)fixA.getUserData() ).reverseVelocity(true, false);
+				}
+				else {
+					( (Enemy)fixB.getUserData() ).reverseVelocity(true, false);
+				}
+				break;
+			}
+			case MarioBros.ENEMY_BIT | MarioBros.MARIO_BIT: {
+				Gdx.app.log("Mario", "DIED");
+				break;
+			}
 		}
 	}
 
