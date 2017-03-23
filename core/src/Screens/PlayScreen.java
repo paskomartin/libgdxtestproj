@@ -1,9 +1,9 @@
 package Screens;
 
 import Scenes.Hud;
-import Sprites.Enemy;
-import Sprites.Goomba;
 import Sprites.Mario;
+import Sprites.Enemies.Enemy;
+import Sprites.Enemies.Goomba;
 import Tools.B2WorldCreator;
 import Tools.WorldContactListener;
 
@@ -99,6 +99,10 @@ public class PlayScreen implements Screen {
 		player.update(dt);
 		for (Enemy enemy : creator.getGoombas()) {
 			enemy.update(dt);
+			// 14 bricks  * brick width (16)
+			if (enemy.getX() < player.getX() + 224 / MarioBros.PPM) {
+				enemy.b2body.setActive(true);
+			}
 		}
 		
 		hud.update(dt);

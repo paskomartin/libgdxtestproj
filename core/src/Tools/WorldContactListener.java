@@ -1,8 +1,8 @@
 package Tools;
 
-import Sprites.Enemy;
 import Sprites.InteractiveTileObject;
 import Sprites.Mario;
+import Sprites.Enemies.Enemy;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;

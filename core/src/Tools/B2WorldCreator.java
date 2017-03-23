@@ -3,7 +3,7 @@ package Tools;
 import Screens.PlayScreen;
 import Sprites.Brick;
 import Sprites.Coin;
-import Sprites.Goomba;
+import Sprites.Enemies.Goomba;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;

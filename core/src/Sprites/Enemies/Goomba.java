@@ -1,4 +1,4 @@
-package Sprites;
+package Sprites.Enemies;
 
 import Screens.PlayScreen;
 
@@ -51,6 +51,7 @@ public class Goomba extends Enemy{
 		fdef.filter.categoryBits = MarioBros.ENEMY_BIT;
 		// define mask bit - mario can collide with?
 		fdef.filter.maskBits = MarioBros.GROUND_BIT | MarioBros.COIN_BIT |
+				MarioBros.ENEMY_BIT |
 				MarioBros.BRICK_BIT | MarioBros.OBJECT_BIT | MarioBros.MARIO_BIT;
 		
 		fdef.shape = shape;
