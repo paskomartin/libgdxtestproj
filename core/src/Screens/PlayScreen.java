@@ -79,6 +79,7 @@ public class PlayScreen implements Screen {
 		// set music
 		music = MarioBros.manager.get("audio/music/mario_music.ogg", Music.class);
 		music.setLooping(true);
+		music.setVolume(0.1f);
 		music.play();
 		
 		goomba = new Goomba(this, .32f, .32f);
