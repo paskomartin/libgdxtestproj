@@ -143,11 +143,11 @@ public class Mario extends Sprite {
 		fdef.filter.maskBits = MarioBros.GROUND_BIT | 
 				MarioBros.COIN_BIT | MarioBros.BRICK_BIT |
 				MarioBros.ENEMY_BIT | MarioBros.OBJECT_BIT |
-				MarioBros.ENEMY_HEAD_BIT;
+				MarioBros.ENEMY_HEAD_BIT | MarioBros.ITEM_BIT;
 		
 		
 		fdef.shape = shape;
-		b2body.createFixture(fdef);
+		b2body.createFixture(fdef).setUserData(this);
 		
 		// create head
 		// just line
@@ -157,6 +157,7 @@ public class Mario extends Sprite {
 		fdef.shape = head;
 		fdef.isSensor = true;
 		
+		//b2body.createFixture(fdef).setUserData(this);
 		b2body.createFixture(fdef).setUserData("head");
 	}
 }

@@ -3,6 +3,7 @@ package Tools;
 import Sprites.InteractiveTileObject;
 import Sprites.Mario;
 import Sprites.Enemies.Enemy;
+import Sprites.Items.Item;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -69,6 +70,24 @@ public class WorldContactListener implements ContactListener{
 				}
 				else {
 					( (Enemy)fixB.getUserData() ).reverseVelocity(true, false);
+				}
+				break;
+			}
+			case MarioBros.ITEM_BIT | MarioBros.OBJECT_BIT: {
+				if (fixA.getFilterData().categoryBits == MarioBros.ITEM_BIT) {
+					( (Item)fixA.getUserData() ).reverseVelocity(true, false);
+				}
+				else {
+					( (Item)fixB.getUserData() ).reverseVelocity(true, false);
+				}
+				break;
+			}
+			case MarioBros.ITEM_BIT | MarioBros.MARIO_BIT: {
+				if (fixA.getFilterData().categoryBits == MarioBros.ITEM_BIT) {
+					( (Item)fixA.getUserData() ).use( (Mario)fixB.getUserData() );
+				}
+				else {
+					( (Item)fixB.getUserData() ).use( (Mario)fixA.getUserData() );
 				}
 				break;
 			}
