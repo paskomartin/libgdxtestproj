@@ -22,6 +22,7 @@ public class WorldContactListener implements ContactListener{
 		
 		int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
 		
+		/*
 		if (fixA.getUserData() == "head" || fixB.getUserData() == "head") {
 			Fixture head = fixA.getUserData() == "head" ? fixA : fixB;
 			Fixture object = head == fixA ? fixB : fixA;
@@ -31,8 +32,20 @@ public class WorldContactListener implements ContactListener{
 				((InteractiveTileObject)object.getUserData()).onHeadHit();
 			}
 		}
+		*/
 		
 		switch (cDef) {
+			case MarioBros.MARIO_HEAD_BIT | MarioBros.BRICK_BIT:
+			case MarioBros.MARIO_HEAD_BIT | MarioBros.COIN_BIT: {
+				if (fixA.getFilterData().categoryBits == MarioBros.MARIO_HEAD_BIT) {
+					((InteractiveTileObject)fixB.getUserData()).onHeadHit( (Mario)fixA.getUserData() );
+				} 
+				else {
+					((InteractiveTileObject)fixA.getUserData()).onHeadHit( (Mario)fixB.getUserData() );
+				}
+				
+				break;
+			}
 			case MarioBros.ENEMY_HEAD_BIT | MarioBros.MARIO_BIT: {
 				// find out which fixture is enemy fixture
 				if (fixA.getFilterData().categoryBits == MarioBros.ENEMY_HEAD_BIT) {
