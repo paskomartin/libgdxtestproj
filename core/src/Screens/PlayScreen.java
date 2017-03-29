@@ -89,8 +89,8 @@ public class PlayScreen implements Screen {
 		// set music
 		music = MarioBros.manager.get("audio/music/mario_music.ogg", Music.class);
 		music.setLooping(true);
-		//music.setVolume(0.1f);
-		//music.play();
+		music.setVolume(0.3f);
+		music.play();
 		
 		items = new Array<Item>();
 		itemsToSpawn = new LinkedBlockingQueue<ItemDef>();
@@ -108,14 +108,12 @@ public class PlayScreen implements Screen {
 			}
 		}
 	}
-	
-	
+		
 	@Override
 	public void show() {
 		
 	}
 
-	
 	public void update(float dt) {
 		handleInput(dt);
 		handleSpawningItems();
@@ -137,28 +135,31 @@ public class PlayScreen implements Screen {
 		
 		hud.update(dt);
 		
-		gamecam.position.x = player.b2body.getPosition().x;
+		// update camera
+		if (player.currentState != Mario.State.DEAD) {
+			gamecam.position.x = player.b2body.getPosition().x;
+		}
 		
 		// always update camera
 		gamecam.update();
 		
 		renderer.setView(gamecam);
 	}
-	
-	
+		
 	private void handleInput(float dt) {
-		if (Gdx.input.isKeyJustPressed(Keys.UP)) {
-			player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
-		}
-		if (Gdx.input.isKeyPressed(Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 2) {
-			player.b2body.applyLinearImpulse(new Vector2(0.1f, 0f), player.b2body.getWorldCenter(), true);
-		}
-		if (Gdx.input.isKeyPressed(Keys.LEFT) && player.b2body.getLinearVelocity().x >= -2) {
-			player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0f), player.b2body.getWorldCenter(), true);
+		if (player.currentState != Mario.State.DEAD) {
+			if (Gdx.input.isKeyJustPressed(Keys.UP)) {
+				player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
+			}
+			if (Gdx.input.isKeyPressed(Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 2) {
+				player.b2body.applyLinearImpulse(new Vector2(0.1f, 0f), player.b2body.getWorldCenter(), true);
+			}
+			if (Gdx.input.isKeyPressed(Keys.LEFT) && player.b2body.getLinearVelocity().x >= -2) {
+				player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0f), player.b2body.getWorldCenter(), true);
+			}	
 		}
 	}
 
-	
 	@Override
 	public void render(float delta) {
 		update(delta);
@@ -192,11 +193,22 @@ public class PlayScreen implements Screen {
 		
 		game.batch.end();
 		
-		
 		game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
 		hud.stage.draw();
+		
+		if (gameOver()) {
+			game.setScreen(new GameOverScreen(game));
+			dispose();
+		}
 	}
 
+	public boolean gameOver() {
+		if(player.currentState == Mario.State.DEAD && player.getStateTimer() > 3) {
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public void resize(int width, int height) {
 		gamePort.update(width, height);
@@ -209,7 +221,6 @@ public class PlayScreen implements Screen {
 	public World getWorld() {
 		return world;
 	}
-	
 	
 	@Override
 	public void pause() {
@@ -237,7 +248,6 @@ public class PlayScreen implements Screen {
 		b2dr.dispose();
 		hud.dispose();
 	}
-	
 	
 	public TextureAtlas getAtlas() {
 		return atlas;

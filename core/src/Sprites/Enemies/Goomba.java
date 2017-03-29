@@ -2,6 +2,7 @@ package Sprites.Enemies;
 
 import Screens.PlayScreen;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -19,9 +20,7 @@ public class Goomba extends Enemy{
 	private Array<TextureRegion> frames;
 	private boolean setToDestroy;	// dirty flag - do we need to destroy this object after box2 simulation?
 	private boolean destroyed;		// is object destroyed?
-	
-	// https://www.youtube.com/watch?v=23y0B-279JY&index=16&list=PLZm85UZQLd2SXQzsF-a0-pPF6IWDDdrXt
-		// 4:48
+	 
 	
 	public Goomba(PlayScreen screen, float x, float y) {
 		super(screen, x, y);
@@ -108,6 +107,6 @@ public class Goomba extends Enemy{
 		 * a dirty flag instead 
 		 */
 		setToDestroy = true;
+		MarioBros.manager.get("audio/sounds/stomp.wav", Sound.class).play();
 	}
-
 }

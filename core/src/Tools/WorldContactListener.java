@@ -47,17 +47,23 @@ public class WorldContactListener implements ContactListener{
 				break;
 			}
 			case MarioBros.ENEMY_HEAD_BIT | MarioBros.MARIO_BIT: {
+				Enemy enemy = null;
 				// find out which fixture is enemy fixture
 				if (fixA.getFilterData().categoryBits == MarioBros.ENEMY_HEAD_BIT) {
+					enemy = (Enemy)fixA.getUserData();
 					// FixA ia enemy
-					((Enemy)fixA.getUserData()).hitOnHead();
+					//((Enemy)fixA.getUserData()).hitOnHead();
+					
 				}
 				else { // if (fixB.getFilterData().categoryBits == MarioBros.ENEMY_HEAD_BIT) {
 					// FixB ia enemy
-					((Enemy)fixB.getUserData()).hitOnHead();
+					//((Enemy)fixB.getUserData()).hitOnHead();
+					enemy = (Enemy)fixB.getUserData();
 				}
+				enemy.hitOnHead();
 				break;
 			}
+			// TODO: IS COLLIDE ??? CHECK IT
 			case MarioBros.ENEMY_BIT | MarioBros.OBJECT_BIT: {
 				if (fixA.getFilterData().categoryBits == MarioBros.ENEMY_BIT) {
 					( (Enemy)fixA.getUserData() ).reverseVelocity(true, false);
@@ -68,7 +74,16 @@ public class WorldContactListener implements ContactListener{
 				break;
 			}
 			case MarioBros.ENEMY_BIT | MarioBros.MARIO_BIT: {
-				Gdx.app.log("Mario", "DIED");
+				Mario mario = null;
+				if (fixA.getFilterData().categoryBits == MarioBros.MARIO_BIT) {
+					mario = (Mario)fixA.getUserData();
+						//( (Mario)fixA.getUserData() ).hit();	
+				} 
+				else {
+					mario = (Mario)fixB.getUserData();
+					//	( (Mario)fixB.getUserData() ).hit();
+				}			
+				mario.hit();
 				break;
 			}
 			case MarioBros.ENEMY_BIT | MarioBros.ENEMY_BIT: {
@@ -110,7 +125,7 @@ public class WorldContactListener implements ContactListener{
 
 	@Override
 	public void endContact(Contact contact) {
-		
+
 	}
 
 	@Override
